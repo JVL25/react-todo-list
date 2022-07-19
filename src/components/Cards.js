@@ -6,7 +6,8 @@ class Cards extends Component {
         this.state = {
             title: '',
             desc: '',
-            cards: {}
+            cards: {},
+            taskTitle: '',
         }
     }
 
@@ -28,7 +29,7 @@ class Cards extends Component {
         newCards[this.state.title] = {
             title: this.state.title,
             description: this.state.desc,
-            task: []
+            task: {}
         };
 
         this.setState({
@@ -47,6 +48,92 @@ class Cards extends Component {
         })
     }
 
+    onChangeTask(event) {
+        this.setState({
+            taskTitle: event.target.value
+        });
+    }
+
+    addTask(item) {
+        let newCards = this.state.cards;
+        newCards[item].task[this.state.taskTitle] = {status: false};
+
+        this.setState({
+            cards: newCards,
+            taskTitle: ''
+        });
+    }
+
+    changeTaskStatus(card, taskToChange) {
+        let newCards = this.state.cards;
+        newCards[card].task[taskToChange].status = !newCards[card].task[taskToChange].status;
+
+        this.setState({
+            cards: newCards
+        });
+    }
+
+    removeTask(card, taskToRm) {
+        let newCards = this.state.cards;
+        delete newCards[card]['task'][taskToRm];
+
+        this.setState({
+            cards: newCards
+        });
+    }
+
+    renderTasks(item) {
+        return Object.keys(this.state.cards[item].task).map((element) => {
+            let row = this.state.cards[item].task[element];
+            if (row.status) {
+                return (
+                    <>
+                        <li
+                            key={item + '-' + element}
+                            className="list-group-item"
+                            id='task-list'
+                            style={{textDecoration: "line-through"}}
+                        >
+                            {element}
+                            <div>
+                                <i
+                                    className="bi bi-arrow-counterclockwise"
+                                    onClick={this.changeTaskStatus.bind(this, item, element)}
+                                ></i>
+                                <i
+                                    className="bi bi-trash"
+                                    onClick={this.removeTask.bind(this, item, element)}
+                                ></i>
+                            </div>
+                        </li>
+                    </>
+                )
+            }
+
+            return (
+                <>
+                    <li
+                        key={item + '-' + element}
+                        className="list-group-item"
+                        id='task-list'
+                    >
+                        {element}
+                        <div>
+                            <i
+                                className="bi bi-check"
+                                onClick={this.changeTaskStatus.bind(this, item, element)}
+                            ></i>
+                            <i
+                                className="bi bi-trash"
+                                onClick={this.removeTask.bind(this, item, element)}
+                            ></i>
+                        </div>
+                    </li>
+                </>
+            )
+        });
+    }
+
     renderCards() {
         return Object.keys(this.state.cards).map((item) => {
             let row = this.state.cards[item];
@@ -55,11 +142,41 @@ class Cards extends Component {
                     <div className="card" style={{width: "18rem"}}>
                         <div className="card-body">
                             <h5 className="card-title">
-                                {row.title}
+                                {item}
+                                <span
+                                    className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                >
+                                    {Object.keys(row.task).length}
+                                    <span className="visually-hidden">unread messages</span>
+                                </span>
                             </h5>
                             <p className="card-text">
                                 {row.description}
                             </p>
+                            <ul className="list-group list-group-flush">
+                                {this.renderTasks(item)}
+                                <li className="list-group-item">
+                                    <div className="input-group mb-3">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder='New task...'
+                                            aria-label="Recipient's username"
+                                            aria-describedby="button-addon2"
+                                            onChange={this.onChangeTask.bind(this)}
+                                            value={this.state.taskTitle}
+                                        />
+                                        <button
+                                            className="btn btn-outline-secondary"
+                                            type="button"
+                                            id="button-addon2"
+                                            onClick={this.addTask.bind(this, item)}
+                                        >
+                                            Add
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                         <div
                             className="card-footer"
