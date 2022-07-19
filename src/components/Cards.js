@@ -144,7 +144,7 @@ class Cards extends Component {
                             <h5 className="card-title">
                                 {item}
                                 <span
-                                    className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
                                 >
                                     {Object.keys(row.task).length}
                                     <span className="visually-hidden">unread messages</span>
