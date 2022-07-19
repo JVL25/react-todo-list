@@ -38,6 +38,54 @@ class Cards extends Component {
         });
     }
 
+    removeCard(cardToRm) {
+        let newCards = this.state.cards;
+        delete newCards[cardToRm];
+
+        this.setState({
+            cards: newCards
+        })
+    }
+
+    renderCards() {
+        return Object.keys(this.state.cards).map((item) => {
+            let row = this.state.cards[item];
+            return (
+                <>
+                    <div className="card" style={{width: "18rem"}}>
+                        <div className="card-body">
+                            <h5 className="card-title">
+                                {row.title}
+                            </h5>
+                            <p className="card-text">
+                                {row.description}
+                            </p>
+                        </div>
+                        <div
+                            className="card-footer"
+                            style={{backgroundColor: '#3D3D3D'}}
+                        >
+                            <button
+                                className="btn"
+                                id="pills-profile-tab"
+                                data-bs-toggle="pill"
+                                data-bs-target="#pills-profile"
+                                type="button"
+                                role="tab"
+                                aria-controls="pills-profile"
+                                aria-selected="false"
+                                onClick={this.removeCard.bind(this, item)}
+                                style={{backgroundColor: '#EDF25C', justifySelf: "end"}}
+                            >
+                                Done
+                            </button>
+                        </div>
+                    </div>
+                </>
+            )
+        });
+    }
+
     render() {
         return (
             <>
@@ -52,9 +100,9 @@ class Cards extends Component {
                         New card
                     </button>
                 </header>
-                <hr style={{borderColor:'#DC76FA'}}/>
+                <hr style={{borderColor: '#DC76FA'}}/>
                 <section>
-
+                    {this.renderCards()}
                 </section>
                 <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                      tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

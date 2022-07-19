@@ -34,3 +34,9 @@ code {
 h2 {
     color: #D9D9D9;
 }
+
+.card-footer {
+    display: flex;
+    justify-content: flex-end;
+    color: #000000;
+}
