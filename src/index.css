@@ -50,3 +50,14 @@ h2 {
 #task-list > div {
     width: 30%;
 }
+
+.section-cards {
+    display: -webkit-flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.section-cards > div {
+    margin-top: 2%;
+}
