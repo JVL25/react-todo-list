@@ -1,11 +1,14 @@
 import './App.css';
+import Cards from './components/Cards';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>To do list</h1>
       </header>
+        <section>
+            <Cards />
+        </section>
     </div>
   );
 }
