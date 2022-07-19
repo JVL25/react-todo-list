@@ -8,6 +8,7 @@ class Cards extends Component {
             desc: '',
             cards: {},
             taskTitle: '',
+            displayedEl: 0
         }
     }
 
@@ -218,7 +219,7 @@ class Cards extends Component {
                     </button>
                 </header>
                 <hr style={{borderColor: '#DC76FA'}}/>
-                <section>
+                <section className='section-cards'>
                     {this.renderCards()}
                 </section>
                 <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
